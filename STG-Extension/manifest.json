@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Smart Tab Grouper",
+  "version": "2.1",
+  "description": "Agrupa pestañas inteligentemente por dominios y similitud de texto.",
+  "permissions": [
+    "tabs",
+    "tabGroups",
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "commands": {
+    "organize-tabs-shortcut": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+O",
+        "mac": "Command+Shift+O"
+      },
+      "description": "Organizar pestañas semánticamente"
+    }
+  }
+}
