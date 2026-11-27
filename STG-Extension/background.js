@@ -1,4 +1,10 @@
-import { groupTabsSemantically, sortGroupsAlphabetically, collapseAllGroups, ungroupAllTabs } from './tab-grouper.js';
+import {
+  groupTabsSemantically,
+  sortGroupsAlphabetically,
+  collapseAllGroups,
+  ungroupAllTabs,
+  closeDuplicateTabs
+} from './tab-grouper.js';
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "organizeTabs") {
@@ -13,6 +19,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     collapseAllGroups();
   } else if (request.action === "ungroupAll") {
     ungroupAllTabs();
+  } else if (request.action === "closeDuplicates") {
+    closeDuplicateTabs();
   }
 });
 

@@ -52,6 +52,14 @@ chrome.storage.sync.get(['savedThreshold', 'savedMinTabs', 'savedCustomGroups'],
   }
 });
 
+// Guardar automáticamente las palabras de Forced groups al escribir
+function saveCustomGroups() {
+  chrome.storage.sync.set({ savedCustomGroups: customGroupsInput.value });
+}
+
+customGroupsInput.addEventListener('input', saveCustomGroups);
+customGroupsInput.addEventListener('change', saveCustomGroups);
+
 chrome.commands.getAll((commands) => {
   const command = commands.find(c => c.name === "organize-tabs-shortcut");
   if (command && command.shortcut) {
@@ -103,6 +111,11 @@ document.getElementById('sortAlphabeticallyBtn').addEventListener('click', async
 
 document.getElementById('collapseGroupsBtn').addEventListener('click', async () => {
   chrome.runtime.sendMessage({ action: "collapseGroups" });
+});
+
+document.getElementById('dedupTabsBtn').addEventListener('click', async () => {
+  chrome.runtime.sendMessage({ action: "closeDuplicates" });
+  setTimeout(updateWindowStats, 250);
 });
 
 document.getElementById('ungroupAllBtn').addEventListener('click', async () => {

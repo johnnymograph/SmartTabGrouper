@@ -189,7 +189,7 @@ export async function sortGroupsAlphabetically() {
   }
 }
 
-// NUEVO: Colapsar (minimizar) todos los grupos de la ventana actual
+// Colapsar (minimizar) todos los grupos de la ventana actual
 export async function collapseAllGroups() {
   try {
     const tabs = await chrome.tabs.query({ currentWindow: true });
@@ -217,4 +217,52 @@ export async function ungroupAllTabs() {
     }
   }
   previousState = null;
+}
+
+function normalizeTabUrl(rawUrl) {
+  try {
+    const parsed = new URL(rawUrl);
+    if (!parsed.protocol.startsWith('http')) {
+      return null;
+    }
+    const cleanPath = parsed.pathname.length > 1
+      ? parsed.pathname.replace(/\/+$/, '')
+      : parsed.pathname;
+    return `${parsed.origin.toLowerCase()}${cleanPath}${parsed.search}`;
+  } catch (e) {
+    return null;
+  }
+}
+
+export async function closeDuplicateTabs() {
+  try {
+    const tabs = await chrome.tabs.query({ currentWindow: true });
+    const seenUrls = new Set();
+    const duplicateTabIds = [];
+
+    // Prioriza conservar pestañas activas o fijadas (pinned)
+    const prioritizedTabs = [...tabs].sort((a, b) => {
+      if (a.active !== b.active) return a.active ? -1 : 1;
+      if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+      return a.index - b.index;
+    });
+
+    for (const tab of prioritizedTabs) {
+      if (!tab.id || !tab.url) continue;
+      const key = normalizeTabUrl(tab.url);
+      if (!key) continue;
+
+      if (seenUrls.has(key)) {
+        duplicateTabIds.push(tab.id);
+      } else {
+        seenUrls.add(key);
+      }
+    }
+
+    if (duplicateTabIds.length > 0) {
+      await chrome.tabs.remove(duplicateTabIds);
+    }
+  } catch (e) {
+    console.error("Error al cerrar pestañas duplicadas:", e);
+  }
 }
