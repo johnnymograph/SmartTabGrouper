@@ -1,8 +1,13 @@
 {
   "manifest_version": 3,
   "name": "Smart Tab Grouper",
-  "version": "2.1",
+  "version": "2.1.0",
   "description": "Agrupa pestañas inteligentemente por dominios y similitud de texto.",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
   "permissions": [
     "tabs",
     "tabGroups",
@@ -13,7 +18,12 @@
     "type": "module"
   },
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
   },
   "commands": {
     "organize-tabs-shortcut": {

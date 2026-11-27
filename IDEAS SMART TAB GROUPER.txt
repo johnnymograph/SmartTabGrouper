@@ -1,0 +1,13 @@
+para mi extensión de notas
+talvez agregar un tab finder
+que me de resultados por url y nombre de pestaña
+iconos para poder mutear, encender sonido, etc de la pestaña(? refeerncia: Tab finder by floverdevel
+
+revisar qué hace cluterfree????
+
+
+borrar foxfied, consume mucha ram, tambien ventan de whatsapp
+
+----
+hacer que el tip de Ram usage, sea solamente un foquito que diga "Ram usage"
+y que el tooltip diga que se puede abrir el administrador de tareas del navegador con Shift+Esc y ver desde ahí las venentas que más consumen ram
